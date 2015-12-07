@@ -32,8 +32,8 @@ gulp.task('nodemon', 'Run nodemon', ['watch'], function() {
     });
 });
 
-gulp.task('watch', 'Watch all js files.', function() {  
-    gulp.watch("src/**/*.js", ["build"]);
+gulp.task('watch', 'Watch all js files.', ['build'], function() {  
+    gulp.watch("src/**/*.js", ['build']);
 });
 
 gulp.task('test', 'Runs the Mocha tests.', function () {
