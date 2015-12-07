@@ -1,1 +1,0 @@
-{"version":3,"sources":["src/config/index.js"],"names":[],"mappings":"AAAA,MAAM,GAAG,GAAG,OAAO,CAAC,GAAG,CAAC,IAAI,IAAI,KAAK,CAAC;AACtC,IAAI,UAAU,GAAG,CAAC,OAAO,GAAE,GAAG,EAAC,KAAK,CAAC,CAAC;;AAEtC,eAAe;AACX,cAAU;CACb,CAAC","file":"src/config/index.js","sourceRoot":".."}
