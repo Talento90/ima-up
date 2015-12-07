@@ -18,14 +18,13 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-gulp.task('node', ['clean'], function () {
+gulp.task('build', ['clean'], function () {
     return gulp.src(src, srcOption)
         .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '..' }))
         .pipe(gulp.dest(dest));
 });
-
 
 gulp.task('nodemon', 'Run nodemon', ['watch'], function() {  
     nodemon({
@@ -34,7 +33,7 @@ gulp.task('nodemon', 'Run nodemon', ['watch'], function() {
 });
 
 gulp.task('watch', 'Watch all js files.', function() {  
-    gulp.watch("src/**/*.js", ["nodemon"]);
+    gulp.watch("src/**/*.js", ["build"]);
 });
 
 gulp.task('test', 'Runs the Mocha tests.', function () {

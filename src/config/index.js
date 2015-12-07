@@ -1,6 +1,7 @@
 const env = process.env.mode || 'dev';
-var configFile = `config.${env}.json`;
+const configFile = `config.${env}.js`;
+const configs = require("./"+configFile)();
 
-export default {
-    configFile
-};
+export default {   
+   configs
+}
