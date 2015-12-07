@@ -1,26 +1,34 @@
-var gulp    = require('gulp');
+
+'use strict';
+var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var gulphelp = require('gulp-help')(gulp);
 var nodemon = require('gulp-nodemon');
+var clean = require('gulp-clean');
+var babel = require('gulp-babel');
+var sourcemaps = require('gulp-sourcemaps');
+
+var src = [ 'src/**/*.js' ];
+var srcOption = { base: './' };
+var dest = './build';
 
 
-var sourcemaps = require("gulp-sourcemaps");
-var babel = require("gulp-babel");
-var concat = require("gulp-concat");
+gulp.task('clean', function () {
+    return gulp.src(dest, {read: false})
+        .pipe(clean());
+});
 
-gulp.task("default", function () {
-  return gulp.src(["src/**/*.js", "test/**/*.js"])
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(concat("all.js"))
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("build"));
+gulp.task('node', ['clean'], function () {
+    return gulp.src(src, srcOption)
+        .pipe(sourcemaps.init())
+        .pipe(babel())
+        .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '..' }))
+        .pipe(gulp.dest(dest));
 });
 
 gulp.task('nodemon', 'Run nodemon', ['watch'], function() {  
     nodemon({
-        script: './src/index.js',
-        exec: 'babel-node'
+        script: './build/src/index.js'
     });
 });
 
