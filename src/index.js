@@ -1,3 +1,5 @@
-import config from "./config";
+'use strict';
 
-console.log(config)
+import AClass from './aclass';
+let aClass = new AClass();
+aClass.test();

@@ -8,7 +8,7 @@ var clean = require('gulp-clean');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 
-var src = [ 'src/**/*.js' ];
+var src = ['src/**/*.js'];
 var srcOption = { base: './' };
 var dest = './build';
 
@@ -25,6 +25,7 @@ gulp.task('node', ['clean'], function () {
         .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '..' }))
         .pipe(gulp.dest(dest));
 });
+
 
 gulp.task('nodemon', 'Run nodemon', ['watch'], function() {  
     nodemon({
