@@ -1,11 +1,12 @@
-const configs = {
-	"logging": {
-		
-	},
-	"database": {
-		
-	}
-};
+const configs = 
+	{
+		"logging": {
+			
+		},
+		"database": {
+			
+		}
+	};
 
 export default () => {
 	return configs;

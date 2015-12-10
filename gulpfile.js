@@ -12,7 +12,6 @@ var src = ['src/**/*.js'];
 var srcOption = { base: './' };
 var dest = './build';
 
-
 gulp.task('clean', function () {
     return gulp.src(dest, {read: false})
         .pipe(clean());
@@ -22,7 +21,7 @@ gulp.task('build', ['clean'], function () {
     return gulp.src(src, srcOption)
         .pipe(sourcemaps.init())
         .pipe(babel())
-        .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '..' }))
+        .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../..' }))
         .pipe(gulp.dest(dest));
 });
 

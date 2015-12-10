@@ -1,6 +1,5 @@
-'use strict';
+"use strict";
 
-import config from './config';
-
+import config from "./config";
 
 console.log(config);
