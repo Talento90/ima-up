@@ -8,6 +8,6 @@ const configs =
 		}
 	};
 
-export default () => {
-	return configs;
+export default {
+	configs
 }
