@@ -18,11 +18,10 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-gulp.task('build', ['clean'], function () {
+gulp.task('build', 'Build Babel Files...', ['clean'], function () {
     return gulp.src(src, srcOption)
         .pipe(sourcemaps.init())
         .pipe(babel())
-        //.pipe(concat("app.js"))
         .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../..' }))
         .pipe(gulp.dest(dest));
 });
