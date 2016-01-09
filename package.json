@@ -33,7 +33,6 @@
     "hapi-swaggered-ui": "^2.1.1",
     "inert": "^3.2.0",
     "joi": "^7.0.1",
-    "lodash": "^3.10.1",
     "vision": "^4.0.1"
   },
   "devDependencies": {
