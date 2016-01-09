@@ -6,8 +6,7 @@ export default (server) => {
         path: "/api/images",
         config: {
             tags: ['api'],
-            description: 'My route description',
-            notes: 'My route notes',
+            description: 'Upload image.',          
             validate: {
                 params: {
                     yourname: Joi.string().max(40).min(2).alphanum()
@@ -24,8 +23,7 @@ export default (server) => {
         path: "/api/images/{id}",
         config: {
             tags: ['api'],
-            description: 'My route description',
-            notes: 'My route notes',
+            description: 'Get image by id.',           
             validate: {
                 params: {
                     id: Joi.string().max(40).min(2)

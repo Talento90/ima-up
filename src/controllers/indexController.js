@@ -4,7 +4,7 @@ export default (server) => {
         path: '/',
         method: 'GET',
         handler: function (request, reply) {
-            reply.redirect('/docs')
+            reply.redirect('/documentation')
         }
     });
 }

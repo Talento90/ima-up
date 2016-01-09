@@ -1,79 +1,90 @@
 "use strict"
 
 import Hapi from "hapi";
-import inert from "inert";
-import vision from "vision";
-import hapiSwaggered from "hapi-swaggered";
-import hapiSwaggeredUI from "hapi-swaggered-ui";
-import config from "./config";
+import * as configs from "./configs";
 import controllers from "./controllers";
 
-var server = new Hapi.Server();
+const server = new Hapi.Server();
+const config = configs.get();
 
 server.connection({
-  port: process.env.PORT || 3000,
-  labels: ['api'],
-  router: {
-    stripTrailingSlash: true
-  },
-  routes: {
-    json: {
-      space: 2
+    port: process.env.PORT || config.server.port,
+    labels: ['ImaUp'],
+    router: {
+        stripTrailingSlash: true
     }
-  }
 })
 
-server.register([
-  inert,
-  vision,
-  {
-    register: hapiSwaggered,
-    options: {
-      cache: false,
-      stripPrefix: '/api',
-      responseValidation: true,
-      tagging: {
-        mode: 'path',
-        pathLevel: 1
-      },
-      tags: {
-        'foobar/test': 'Example foobar description'
-      },
-      info: {
-        title: 'Example API',
-        description: 'Powered by node, hapi, joi, hapi-swaggered, hapi-swaggered-ui and swagger-ui',
-        version: '1.0'
-      }
-    }
-  },
-  {
-    register: hapiSwaggeredUI,
-    options: {
-      title: 'Example API',
-      path: '/docs',
-      authorization: {
-        field: 'apiKey',
-        scope: 'query', // header works as well
-        defaultValue: 'demoKey',
-        placeholder: 'Enter your apiKey here'
-      },
-      swaggerOptions: {
-        validatorUrl: null
-      }
-    }
-  }], {
-    select: 'api'
-  }, function (err) {
-    if (err) {
-      throw err
-    }
-  })
+server.register(
+    [
+        require('inert'),
+        require('vision'),
+        {
+            register: require('hapi-swaggered'),
+            options: {
+                cache: false,
+                stripPrefix: '/api',
+                responseValidation: true,
+                tagging: {
+                    mode: 'path',
+                    pathLevel: 1
+                },
+                tags: {
+                    'foobar/test': 'Example foobar description'
+                },
+                info: {
+                    title: 'ImaUp API',
+                    description: 'ImaUp is a microservice to upload images.',
+                    version: '1.0'
+                }
+            }
+        },
+        {
+            register: require('hapi-swaggered-ui'),
+            options: {
+                title: 'ImaUp API',
+                path: '/documentation'
+            }
+        },
+        {
+            register: require('good'),
+            options: {
+                opsInterval: 1000,
+                reporters: [
+                    {
+                        reporter: require('good-console'),
+                        events: { log: '*', response: '*' },
+                        config: {
+                            format: "YYYY-MM-DD HH:mm:ss"
+                        }
+                    },
+                    {
+                        reporter: require('good-file'),
+                        events: { log: '*', response: '*', ops: '*' },
+                        config: {
+                            path: config.logging.path,
+                            format: "YYYY-MM-DD",
+                            extension: ".log",
+                            prefix: "ImaUp",
+                            rotate: "daily"
+                        }
+                    }]
+            }
+        }
+    ],
+    {
+        select: 'ImaUp'
+    }, (err) => {
+        if (err) {
+            throw err
+        }
+    });
 
 //Setup Controllers
 controllers(server);
 
-server.start(function() {
-    console.log('Now Visit: http://localhost:3000/YOURNAME')
+server.start(() => {
+    server.log('info', `Server started at port: ${config.server.port}`);
 });
 
 export { server };

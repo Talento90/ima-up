@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var lab = require('gulp-lab');
 var gulphelp = require('gulp-help')(gulp);
 var nodemon = require('gulp-nodemon');
-var clean = require('gulp-clean');
+var rimraf = require('gulp-rimraf');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -15,10 +15,10 @@ var dest = './build';
 
 gulp.task('clean', function () {
     return gulp.src(dest, {read: false})
-        .pipe(clean());
+        .pipe(rimraf());
 });
 
-gulp.task('build', 'Build Babel Files...', ['clean'], function () {
+gulp.task('build', 'Build Babel Files.', ['clean'], function () {
     return gulp.src([src, test], srcOption)
         .pipe(sourcemaps.init())
         .pipe(babel())
@@ -26,14 +26,12 @@ gulp.task('build', 'Build Babel Files...', ['clean'], function () {
         .pipe(gulp.dest(dest));
 });
 
-gulp.task('watch', 'Watch all js files.', ['build'], function() {  
-    gulp.watch(src, ['build']);
-});
-
-gulp.task('nodemon', 'Run nodemon', ['watch'], function() {  
+gulp.task('nodemon', 'Run nodemon', ['build'], function() {  
     nodemon({
-        script: './build/src/index.js'
-    });
+        script: './build/src/index.js',
+        watch: [src],
+        env: { 'NODE_ENV': 'dev'}
+    }).on('restart', ['build']);;
 });
 
 gulp.task('test', 'Runs the Mocha tests.', function () {
@@ -45,3 +43,6 @@ gulp.task('test', 'Runs the Mocha tests.', function () {
             }
         }));
 });
+
+
+gulp.task('default', 'Default task.', ['nodemon']);
