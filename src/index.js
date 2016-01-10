@@ -46,26 +46,8 @@ server.register(
     {
       register: require('good'),
       options: {
-        opsInterval: 1000,
-        reporters: [
-          {
-            reporter: require('good-console'),
-            events: { log: '*', response: '*' },
-            config: {
-              format: 'YYYY-MM-DD HH:mm:ss'
-            }
-          },
-          {
-            reporter: require('good-file'),
-            events: { log: '*', response: '*', ops: '*' },
-            config: {
-              path: config.logging.path,
-              format: 'YYYY-MM-DD',
-              extension: '.log',
-              prefix: 'ImaUp',
-              rotate: 'daily'
-            }
-          }]
+        opsInterval: config.logging.opsInterval,
+        reporters: config.logging.reports
       }
     }
   ],

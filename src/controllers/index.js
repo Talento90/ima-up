@@ -1,7 +1,7 @@
-import imagesController from './imagesController'
+import imageController from './imageController'
 import indexController from './indexController'
 
 export default function (server) {
-  imagesController(server)
+  imageController(server)
   indexController(server)
 }

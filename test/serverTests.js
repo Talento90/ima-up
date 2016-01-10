@@ -8,7 +8,7 @@ lab.experiment('Basic HTTP Tests', () => {
   lab.test('GET /{yourname*} (endpoint test)', (done) => {
     var options = {
       method: 'GET',
-      url: '/Timmy'
+      url: '/api/images/Timmy'
     }
 
     server.inject(options, (response) => {

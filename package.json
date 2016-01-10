@@ -26,13 +26,17 @@
     "parser": "babel-eslint"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "boom": "^3.1.1",
     "good": "^6.4.0",
+    "good-console": "^5.2.0",
     "good-file": "^5.1.1",
     "hapi": "^11.1.2",
     "hapi-swaggered": "^2.4.1",
     "hapi-swaggered-ui": "^2.1.1",
     "inert": "^3.2.0",
     "joi": "^7.0.1",
+    "node-uuid": "^1.4.7",
     "vision": "^4.0.1"
   },
   "devDependencies": {

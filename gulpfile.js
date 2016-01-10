@@ -42,10 +42,10 @@ gulp.task('nodemon', 'Run nodemon', ['build'], function () {
   }).on('restart', ['build'])
 })
 
-gulp.task('test', 'Run tests.', function () {
+gulp.task('test', 'Run tests.', ['build'], function () {
   return gulp.src('./build/test/**/*.js')
     .pipe(lab({
-      args: '-v -C -r junit -o reports/tests.xml',
+      args: '-v -C -r junit -o reports/tests.xml -e test',
       opts: {
         emitLabError: true
       }

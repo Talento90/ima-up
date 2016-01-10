@@ -1,6 +1,6 @@
 const configs = {
   'server': {
-    port: 3000,
+    port: 3001,
     maxBytes: 20971520 //   20MB
   },
   'logging': {
@@ -11,17 +11,6 @@ const configs = {
         events: { log: '*', response: '*' },
         config: {
           format: 'YYYY-MM-DD HH:mm:ss'
-        }
-      },
-      {
-        reporter: require('good-file'),
-        events: { log: '*', response: '*', ops: '*' },
-        config: {
-          path: 'C:\\Users\\Marco\\Desktop\\Projects\\GitHub\\node-hapiness\\logs',
-          format: 'YYYY-MM-DD',
-          extension: '.log',
-          prefix: 'ImaUp',
-          rotate: 'daily'
         }
       }
     ]
