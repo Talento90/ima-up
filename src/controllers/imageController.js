@@ -1,34 +1,57 @@
 import Joi from 'joi'
 import Boom from 'boom'
-import * as configs from '../configs'
+import * as Configs from '../configs'
 import * as ImageManager from '../managers/imageManager'
 
-const config = configs.get()
+const config = Configs.get()
+
+const imageModel = Joi.object({
+  id: Joi.string().required(),
+  type: Joi.string().required(),
+  url: Joi.string().required()
+})
 
 export default (server) => {
   server.route({
     method: 'POST',
     path: '/api/images',
     config: {
-      tags: ['api'],
+      tags: ['api', 'images'],
       description: 'Upload image.',
+      plugins: {
+        'hapi-swagger': {
+          payload: {
+            payloadType: 'form',
+            responses: {
+              '201': {
+                'description': 'Created image.',
+                'schema': imageModel
+              },
+              '302': {
+                'description': 'Image already exists.',
+                'schema': imageModel
+              }
+            }
+          }
+        }
+      },
       validate: {
-        payload: Joi.object({
-          image: Joi.object().meta({ swaggerType: 'file' })
-        }),
-        headers: Joi.object({
-          'content-type': Joi.string().required().valid(['img/jpg', 'img/png']).message('supported types : xxx')
-        })
+        payload: {
+          file: Joi.any()
+            .meta({ swaggerType: 'file' })
+            .required()
+        }
       },
       payload: {
         maxBytes: config.server.maxBytes,
-        allow: 'multipart/form-data',
-        output: 'data'
+        parse: true,
+        output: 'stream'
       },
       handler: (req, reply) => {
+        console.log(req.payload)
+        console.log(req.payload['file'])
         let imageData = req.payload.image
         let type = req.headers.contentType
-        console.log(req.headers)
         return ImageManager.generateImageHash(imageData).then((hash) => {
           return ImageManager.getImageByHash(hash).then((image) => {
             if (image) {
@@ -41,16 +64,6 @@ export default (server) => {
           })
         })
       }
-    //   response: {
-    //     schema: Joi.object({
-    //       id: Joi.string().description('Image id').required(),
-    //       url: Joi.string().description('Image url').required()
-    //     }).description('Image Model'),
-    //     status: {
-    //       201: {description: 'Image created sucessfully.'},
-    //       302: {description: 'Image already exstis.'}
-    //     }
-    //   }
     }
   })
 
@@ -58,7 +71,7 @@ export default (server) => {
     method: 'GET',
     path: '/api/images/{id}',
     config: {
-      tags: ['api'],
+      tags: ['api', 'images'],
       description: 'Get image by id.',
       validate: {
         params: {

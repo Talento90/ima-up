@@ -13,5 +13,3 @@ export function saveImage (image) {
   return Promise.resolve(image)
 }
 
-
-

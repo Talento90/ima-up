@@ -1,11 +1,14 @@
 'use strict'
 
 import Hapi from 'hapi'
-import * as configs from './configs'
-import controllers from './controllers'
+import * as Configs from './configs'
+import Controllers from './controllers'
+import Inert from 'inert'
+import Vision from 'vision'
+import HapiSwagger from 'hapi-swagger'
 
 const server = new Hapi.Server()
-const config = configs.get()
+const config = Configs.get()
 
 server.connection({
   port: process.env.PORT || config.server.port,
@@ -17,30 +20,24 @@ server.connection({
 
 server.register(
   [
-    require('inert'),
-    require('vision'),
+    Inert,
+    Vision,
     {
-      register: require('hapi-swaggered'),
+      register: HapiSwagger,
       options: {
-        cache: false,
-        stripPrefix: '/api',
-        responseValidation: true,
-        tagging: {
-          mode: 'path',
-          pathLevel: 1
-        },
         info: {
           title: 'ImaUp API',
           description: 'ImaUp is a microservice to upload images.',
           version: '1.0'
-        }
-      }
-    },
-    {
-      register: require('hapi-swaggered-ui'),
-      options: {
-        title: 'ImaUp API',
-        path: '/documentation'
+        },
+        tags: [
+          {
+            'name': 'images',
+            'description': 'Api images interface.'
+          }
+        ],
+        enableDocumentation: true,
+        documentationPath: '/documentation'
       }
     },
     {
@@ -60,7 +57,7 @@ server.register(
   })
 
 //  Setup Controllers
-controllers(server)
+Controllers(server)
 
 server.start(() => {
   server.log('info', `Server started at port: ${config.server.port}`)
