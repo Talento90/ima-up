@@ -1,6 +1,7 @@
 import * as ImageRepository from '../repository/imageRepository'
 import Image from '../models/image'
-import bcrypt from 'bcrypt-nodejs'
+import crypto from 'crypto'
+//  import fs from 'fs'
 
 export function saveImage (type, hash, imageData) {
   let image = new Image(type, hash, 'url')
@@ -21,15 +22,20 @@ export function getImageById (id) {
   })
 }
 
-export function generateImageHash (imageData) {
+export function generateImageHash (stream) {
   return new Promise((resolve, reject) => {
-    bcrypt.hash(imageData, null, null, (err, hash) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(hash)
-      }
+    let hash = crypto.createHash('md5')
+
+    stream.on('data', (data) => {
+      hash.update(data, 'utf8')
+    })
+
+    stream.on('error', (err) => {
+      reject(err)
+    })
+
+    stream.on('end', () => {
+      resolve(hash.digest('hex'))
     })
   })
 }
-

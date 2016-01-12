@@ -37,27 +37,26 @@ export default (server) => {
       },
       validate: {
         payload: {
-          file: Joi.any()
-            .meta({ swaggerType: 'file' })
-            .required()
+          image: Joi.any().meta({ swaggerType: 'file' }).required()
         }
       },
       payload: {
         maxBytes: config.server.maxBytes,
         parse: true,
-        output: 'stream'
+        output: 'stream',
+        allow: 'multipart/form-data'
       },
       handler: (req, reply) => {
-        console.log(req.payload)
-        console.log(req.payload['file'])
-        let imageData = req.payload.image
-        let type = req.headers.contentType
-        return ImageManager.generateImageHash(imageData).then((hash) => {
+        let data = req.payload
+        let contentType = data.image.hapi.headers['content-type']
+
+        return ImageManager.generateImageHash(data.image).then((hash) => {
           return ImageManager.getImageByHash(hash).then((image) => {
+            console.log(image)
             if (image) {
               reply(image).code(302)
             } else {
-              return ImageManager.saveImage(type, hash, imageData).then((image) => {
+              return ImageManager.saveImage(contentType, hash, '').then((image) => {
                 reply(image).code(201)
               })
             }

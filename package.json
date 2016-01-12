@@ -26,7 +26,6 @@
     "parser": "babel-eslint"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "boom": "^3.1.1",
     "good": "^6.4.0",
     "good-console": "^5.2.0",
@@ -35,7 +34,6 @@
     "hapi-swagger": "^3.1.1",
     "inert": "^3.2.0",
     "joi": "^7.0.1",
-    "multiparty": "^4.1.2",
     "node-uuid": "^1.4.7",
     "vision": "^4.0.1"
   },
