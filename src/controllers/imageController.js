@@ -6,62 +6,64 @@ import * as ImageManager from '../managers/imageManager'
 const config = Configs.get()
 
 const imageModel = Joi.object({
-  id: Joi.string().required(),
-  type: Joi.string().required(),
-  url: Joi.string().required()
-})
+  id: Joi.string().required().example('x78P9c'),
+  type: Joi.string().required().example('image/png'),
+  created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01')
+}).label('Image Model').description('Json body for image.')
+
+var imageHTTPStatus = {
+  '201': {
+    'description': 'Created image.',
+    'schema': imageModel
+  },
+  '302': {
+    'description': 'Image already exists.',
+    'schema': imageModel
+  }
+}
 
 export default (server) => {
   server.route({
     method: 'POST',
     path: '/api/images',
     config: {
-      tags: ['api', 'images'],
-      description: 'Upload image.',
-      plugins: {
-        'hapi-swagger': {
-          payload: {
-            payloadType: 'form',
-            responses: {
-              '201': {
-                'description': 'Created image.',
-                'schema': imageModel
-              },
-              '302': {
-                'description': 'Image already exists.',
-                'schema': imageModel
-              }
-            }
-          }
-        }
-      },
-      validate: {
-        payload: {
-          image: Joi.any().meta({ swaggerType: 'file' }).required()
-        }
-      },
-      payload: {
-        maxBytes: config.server.maxBytes,
-        parse: true,
-        output: 'stream',
-        allow: 'multipart/form-data'
-      },
       handler: (req, reply) => {
         let data = req.payload
         let contentType = data.image.hapi.headers['content-type']
+        let imageStream = data.image
 
-        return ImageManager.generateImageHash(data.image).then((hash) => {
+        return ImageManager.generateImageHash(imageStream).then((hash) => {
           return ImageManager.getImageByHash(hash).then((image) => {
-            console.log(image)
             if (image) {
               reply(image).code(302)
             } else {
-              return ImageManager.saveImage(contentType, hash, '').then((image) => {
+              return ImageManager.saveImage(contentType, hash, imageStream).then((image) => {
                 reply(image).code(201)
               })
             }
           })
         })
+      },
+      description: 'Upload a image file.',
+      plugins: {
+        'hapi-swagger': {
+          responses: imageHTTPStatus,
+          payloadType: 'form'
+        }
+      },
+      tags: ['api', 'images'],
+      validate: {
+        payload: {
+          image: Joi.any()
+            .meta({ swaggerType: 'file' })
+            .required()
+            .description('Valid image file.')
+        }
+      },
+      payload: {
+        maxBytes: config.server.maxBytes,
+        parse: true,
+        output: 'stream'
       }
     }
   })

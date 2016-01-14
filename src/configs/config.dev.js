@@ -1,7 +1,12 @@
 const configs = {
+  'imageMapping': {
+    'image/png': '.png',
+    'image/jpg': '.jpg'
+  },
   'server': {
     port: 3000,
-    maxBytes: 20971520 //   20MB
+    maxBytes: 20971520, //   20MB
+    imagesStorage: 'C:\\Users\\Marco\\Desktop\\ImaUpStorage'
   },
   'logging': {
     'opsInterval': 1000,

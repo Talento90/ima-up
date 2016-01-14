@@ -1,11 +1,8 @@
 import * as ImageRepository from '../repository/imageRepository'
-import Image from '../models/image'
 import crypto from 'crypto'
-//  import fs from 'fs'
 
-export function saveImage (type, hash, imageData) {
-  let image = new Image(type, hash, 'url')
-  return ImageRepository.saveImage(image).then((image) => {
+export function saveImage (type, hash, imageStream) {
+  return ImageRepository.saveImage(type, hash, imageStream).then((image) => {
     return image
   })
 }
