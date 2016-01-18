@@ -18,7 +18,7 @@ gulp.task('clean', function () {
     .pipe(rimraf())
 })
 
-gulp.task('build', 'Build babel.', ['clean', 'standard'], function () {
+gulp.task('build', 'Build babel.', ['clean'], function () {
   return gulp.src([src, test], srcOption)
     .pipe(sourcemaps.init())
     .pipe(babel())
@@ -37,6 +37,7 @@ gulp.task('standard', 'Check js files using standard rules.', function () {
 gulp.task('nodemon', 'Run nodemon', ['build'], function () {
   nodemon({
     script: './build/src/index.js',
+	'legacy-watch': true,
     watch: [src],
     env: { 'NODE_ENV': 'dev' }
   }).on('restart', ['build'])

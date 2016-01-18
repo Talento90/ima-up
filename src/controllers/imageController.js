@@ -63,7 +63,8 @@ export default (server) => {
       payload: {
         maxBytes: config.server.maxBytes,
         parse: true,
-        output: 'stream'
+        output: 'stream',
+        allow: 'multipart/form-data'
       }
     }
   })
