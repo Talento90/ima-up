@@ -15,25 +15,19 @@ export function getImageByHash (imgHash) {
 
 export function saveImage (type, hash, imageStream) {
   let image = new Image(type, hash)
-  var imagePath = config.server.imagesStorage + image.id + '.png'
+  var imagePath = config.server.imagesStorage + image.id + config.imageMapping[type]
   var writableStream = fs.createWriteStream(imagePath)
-  console.log(imagePath)
 
   return new Promise((resolve, reject) => {
-    console.log(imageStream)
-    console.log("xxx2")
-
     writableStream.on('error', function (err) {
-      console.log(err)
-      console.log('error')
       reject(err)
     })
 
-    imageStream.pipe(writableStream)
+    imageStream.on('data', function (chunk) {
+      writableStream.write(chunk)
+    })
 
     imageStream.on('end', function (err) {
-      console.log(err)
-      console.log('end')
       if (err) {
         reject(err)
       } else {
