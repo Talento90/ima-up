@@ -8,6 +8,6 @@ export default class Image {
     this.contentType = contentType
     this.hash = hash
     this.url = undefined
-    this.created = moment.utc()
+    this.created = moment.utc().format()
   }
 }

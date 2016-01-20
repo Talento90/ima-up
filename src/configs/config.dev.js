@@ -4,9 +4,9 @@ const configs = {
     'image/jpg': '.jpg'
   },
   'server': {
-    port: 3000,
+    port: 3001,
     maxBytes: 20971520, //   20MB
-    imagesStorage: 'C:\\Users\\Marco\\Desktop\\ImaUpStorage'
+    imagesStorage: 'C:\\Users\\Marco\\Desktop\\'
   },
   'logging': {
     'opsInterval': 1000,

@@ -1,41 +1,40 @@
-//  import * as Configs from '../configs'
+import * as Configs from '../configs'
 import Image from '../models/image'
-// import fs from 'fs'
+import fs from 'fs'
 
-// const config = Configs.get()
+const config = Configs.get()
 var imageMemRepository = []
 
 export function getImageById (id) {
-  return Promise.resolve(imageMemRepository.map((img) => img.id === id)[0])
+  return Promise.resolve(imageMemRepository.filter((img) => img.id === id)[0])
 }
 
 export function getImageByHash (imgHash) {
-  return Promise.resolve(imageMemRepository.map((img) => img.hash === imgHash)[0])
+  return Promise.resolve(imageMemRepository.filter((img) => img.hash === imgHash)[0])
 }
 
 export function saveImage (type, hash, imageStream) {
   let image = new Image(type, hash)
-//   var imagePath = config.server.imagesStorage + image.id + '.png'
-//   var writableStream = fs.createWriteStream(imagePath)
+  var imagePath = config.server.imagesStorage + image.id + config.imageMapping[type]
+  var writableStream = fs.createWriteStream(imagePath)
 
-//   writableStream.on('error', (err) => {
-//     console.log(err)
-//     return Promise.reject(err)
-//   })
+  return new Promise((resolve, reject) => {
+    writableStream.on('error', function (err) {
+      reject(err)
+    })
 
-//   imageStream.pipe(writableStream)
+    imageStream.on('data', function (chunk) {
+      writableStream.write(chunk)
+    })
 
-//   imageStream.on('end', (err) => {
-//     if (err) {
-//       return Promise.resolve(err)
-//     } else {
-//       image.url = imagePath
-//       console.log(image)
-//       imageMemRepository.push(image)
-//       return Promise.resolve(image)
-//     }
-//   })
-
-  imageMemRepository.push(image)
-  return Promise.resolve(image)
+    imageStream.on('end', function (err) {
+      if (err) {
+        reject(err)
+      } else {
+        image.url = imagePath
+        imageMemRepository.push(image)
+        resolve(image)
+      }
+    })
+  })
 }
