@@ -29,15 +29,17 @@ export default (server) => {
     path: '/api/images',
     config: {
       handler: (req, reply) => {
-        let data = req.payload
-        let contentType = data.image.hapi.headers['content-type']
-        let imageStream = data.image
+        let data = req.payload.image
+        let contentType = data.headers['content-type']
+        let imagePath = data.path
 
+        var imageStream = fs.createReadStream(imagePath)
         return ImageManager.generateImageHash(imageStream).then((hash) => {
           return ImageManager.getImageByHash(hash).then((image) => {
             if (image) {
               reply(image).code(302)
             } else {
+              imageStream = fs.createReadStream(imagePath)
               return ImageManager.saveImage(contentType, hash, imageStream).then((image) => {
                 reply(image).code(201)
               })
@@ -64,7 +66,7 @@ export default (server) => {
       payload: {
         maxBytes: config.server.maxBytes,
         parse: true,
-        output: 'stream',
+        output: 'file',
         allow: 'multipart/form-data'
       }
     }

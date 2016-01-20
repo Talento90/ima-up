@@ -6,11 +6,11 @@ const config = Configs.get()
 var imageMemRepository = []
 
 export function getImageById (id) {
-  return Promise.resolve(imageMemRepository.map((img) => img.id === id)[0])
+  return Promise.resolve(imageMemRepository.filter((img) => img.id === id)[0])
 }
 
 export function getImageByHash (imgHash) {
-  return Promise.resolve(imageMemRepository.map((img) => img.hash === imgHash)[0])
+  return Promise.resolve(imageMemRepository.filter((img) => img.hash === imgHash)[0])
 }
 
 export function saveImage (type, hash, imageStream) {
