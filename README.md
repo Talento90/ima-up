@@ -5,17 +5,18 @@ ImaUp is a microservice responsible to upload images.
 
 **Features**
 
-- Image duplication verification by image hash
+- Verifies image duplication by image hash
 - Uses Hapi.js as Web Framework
 - Swagger Documentation
+- Tests using Lab
 - MongoDb to store image info
 
 **Installation Guide**
 
  - npm install 
- - run: gulp build (Build babel and applies standard code rules)
+ - run: gulp build (build babel and applies standard code rules)
  - run: gulp nodemon (applies standard code rules and runs babel)
- - run: gulp test (if you want to run tests)
+ - run: gulp test (run tests using lab framework)
 
 
 Api Example
