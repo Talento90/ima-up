@@ -6,7 +6,7 @@ const configs = {
   'server': {
     port: 3001,
     maxBytes: 20971520, //   20MB
-    imagesStorage: 'C:\\Users\\Marco\\Desktop\\'
+    imagesStorage: __dirname + '\\Upload\\'
   },
   'logging': {
     'opsInterval': 1000,
@@ -22,7 +22,7 @@ const configs = {
         reporter: require('good-file'),
         events: { log: '*', response: '*', ops: '*' },
         config: {
-          path: 'C:\\Users\\Marco\\Desktop\\Projects\\GitHub\\node-hapiness\\logs',
+          path: __dirname + '\\logs',
           format: 'YYYY-MM-DD',
           extension: '.log',
           prefix: 'ImaUp',
@@ -32,7 +32,7 @@ const configs = {
     ]
   },
   'database': {
-
+    connectionString: 'localhost:27017/ima-up-dev'
   }
 }
 

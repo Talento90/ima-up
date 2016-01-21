@@ -7,7 +7,7 @@ import * as ImageManager from '../managers/imageManager'
 const config = Configs.get()
 
 const imageModel = Joi.object({
-  id: Joi.string().required().example('x78P9c'),
+  id: Joi.string().required().example('23915581-9d85-4af2-9245-fc5bb3b1757f'),
   type: Joi.string().required().example('image/png'),
   created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01')
 }).label('Image Model').description('Json body for image.')
