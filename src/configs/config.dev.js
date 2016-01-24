@@ -1,12 +1,13 @@
 const configs = {
   'imageMapping': {
     'image/png': '.png',
-    'image/jpg': '.jpg'
+    'image/jpg': '.jpg',
+    'image/jpeg': '.jpg'
   },
   'server': {
     port: 3001,
     maxBytes: 20971520, //   20MB
-    imagesStorage: __dirname + '\\Upload\\'
+    imagesStorage: 'C:\\Users\\Marco\\Desktop\\'
   },
   'logging': {
     'opsInterval': 1000,
@@ -22,7 +23,7 @@ const configs = {
         reporter: require('good-file'),
         events: { log: '*', response: '*', ops: '*' },
         config: {
-          path: __dirname + '\\logs',
+          path: 'C:\\Users\\Marco\\Desktop\\',
           format: 'YYYY-MM-DD',
           extension: '.log',
           prefix: 'ImaUp',

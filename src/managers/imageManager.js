@@ -19,6 +19,15 @@ export function getImageById (id) {
   })
 }
 
+export function deleteImage (image) {
+  return ImageRepository.deleteImage(image)
+    .then((image) => {
+      return image
+    }).catch((error) => {
+      return error
+    })
+}
+
 export function generateImageHash (stream) {
   return new Promise((resolve, reject) => {
     let hash = crypto.createHash('md5')

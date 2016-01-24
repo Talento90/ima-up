@@ -9,7 +9,7 @@ const config = Configs.get()
 const imageModel = Joi.object({
   id: Joi.string().required().example('23915581-9d85-4af2-9245-fc5bb3b1757f'),
   type: Joi.string().required().example('image/png'),
-  created: Joi.string().required().isoDate().description('ISO date string').example('2015-12-01')
+  created: Joi.string().required().isoDate().description('ISO date string').example('2016-01-23T22:07:05+00:00')
 }).label('Image Model').description('Json body for image.')
 
 var imageHTTPStatus = {
@@ -40,9 +40,12 @@ export default (server) => {
               reply(image).code(302)
             } else {
               imageStream = fs.createReadStream(imagePath)
-              return ImageManager.saveImage(contentType, hash, imageStream).then((image) => {
-                reply(image).code(201)
-              })
+              return ImageManager.saveImage(contentType, hash, imageStream)
+                .then((image) => {
+                  reply(image).code(201)
+                }).catch((err) => {
+                  reply(Boom.create(500, 'Unexpected error.', err))
+                })
             }
           })
         })
@@ -125,6 +128,32 @@ export default (server) => {
       },
       tags: ['api', 'images'],
       description: 'Get image file by id.',
+      validate: {
+        params: {
+          id: Joi.string()
+        }
+      }
+    }
+  })
+
+  server.route({
+    method: 'DELETE',
+    path: '/api/images/{id}',
+    config: {
+      handler: (req, reply) => {
+        const id = req.params.id
+        return ImageManager.getImageById(id).then((image) => {
+          if (!image) {
+            reply(Boom.notFound())
+          } else {
+            return ImageManager.deleteImage(image).then((image) => {
+              reply(image)
+            })
+          }
+        })
+      },
+      tags: ['api', 'images'],
+      description: 'Delete image by id.',
       validate: {
         params: {
           id: Joi.string()

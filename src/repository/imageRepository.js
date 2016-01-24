@@ -38,3 +38,15 @@ export function saveImage (type, hash, imageStream) {
     })
   })
 }
+
+export function deleteImage (image) {
+  return new Promise((resolve, reject) => {
+    fs.unlink(image.imagePath, (error) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(image)
+      }
+    })
+  })
+}
