@@ -1,13 +1,13 @@
 'use strict'
-import uuid from 'node-uuid'
-import moment from 'moment'
+import mongoose from 'mongoose'
 
-export default class Image {
-  constructor (contentType, hash) {
-    this.id = uuid.v4()
-    this.contentType = contentType
-    this.hash = hash
-    this.url = undefined
-    this.created = moment.utc().format()
-  }
-}
+var Schema = mongoose.Schema
+
+var TodoSchema = new Schema({
+  hash: {type: String, required: true, unique: true},
+  contentType: { type: String, required: true },
+  url: { type: String, required: true },
+  createdDate: { type: Date, default: Date.now }
+})
+
+export default mongoose.model('Image', TodoSchema)

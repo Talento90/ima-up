@@ -22,7 +22,7 @@ gulp.task('build', 'Build babel.', ['clean', 'standard'], function () {
   return gulp.src([src, test], srcOption)
     .pipe(sourcemaps.init())
     .pipe(babel())
-    .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../..' }))
+    .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../../..' }))
     .pipe(gulp.dest(dest))
 })
 

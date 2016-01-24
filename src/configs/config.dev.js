@@ -33,7 +33,7 @@ const configs = {
     ]
   },
   'database': {
-    connectionString: 'localhost:27017/ima-up-dev'
+    'connectionString': 'mongodb://localhost/ima-up-dev'
   }
 }
 
