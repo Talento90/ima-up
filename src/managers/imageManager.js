@@ -1,4 +1,23 @@
+import crypto from 'crypto'
 import fs from 'fs'
+
+export function generateImageHash (stream) {
+  return new Promise((resolve, reject) => {
+    let hash = crypto.createHash('md5')
+
+    stream.on('data', (data) => {
+      hash.update(data, 'utf8')
+    })
+
+    stream.on('error', (err) => {
+      reject(err)
+    })
+
+    stream.on('end', () => {
+      resolve(hash.digest('hex'))
+    })
+  })
+}
 
 export function saveImage (imagePath, imageStream) {
   var writableStream = fs.createWriteStream(imagePath)
@@ -16,7 +35,7 @@ export function saveImage (imagePath, imageStream) {
       if (err) {
         reject(err)
       } else {
-        resolve()
+        resolve(imagePath)
       }
     })
   })

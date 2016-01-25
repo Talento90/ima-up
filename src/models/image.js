@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 var Schema = mongoose.Schema
 
 var TodoSchema = new Schema({
-  hash: {type: String, required: true, unique: true},
+  hash: { type: String, required: true, index: true },
   contentType: { type: String, required: true },
   url: { type: String, required: true },
   createdDate: { type: Date, default: Date.now }

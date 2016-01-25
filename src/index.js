@@ -64,8 +64,14 @@ server.register(
 // Setup Mongoose
 Mongoose.Promise = global.Promise
 Mongoose.connect(config.database.connectionString)
-Mongoose.connection.on('error', () => {
-  server.log('error', `Unable to connect to database at: ${config.database.connectionString}`)
+let mongoDb = Mongoose.connection
+
+mongoDb.on('error', () => {
+  server.log('error', `Unable to connect to database: ${config.database.connectionString}`)
+})
+
+mongoDb.once('open', () => {
+  server.log('info', `Connected to database: ${config.database.connectionString}`)
 })
 
 // Load all Mongoose models
