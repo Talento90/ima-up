@@ -1,5 +1,6 @@
 # ImaUp (Image Uploader)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+![build status](https://api.travis-ci.org/Talento90/ima-up.svg)
 
 ImaUp is a microservice responsible to upload images. 
 
