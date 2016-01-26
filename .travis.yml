@@ -1,6 +1,5 @@
-services:
-  - mongodb
-
 before_script:
   - npm install -g gulp
 script: gulp test
+services:
+  - mongodb
