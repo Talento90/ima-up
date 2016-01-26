@@ -4,7 +4,7 @@
   "description": "Microservice to upload images.",
   "main": "build/src/index.js",
   "scripts": {
-    "test": "lab -c"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",

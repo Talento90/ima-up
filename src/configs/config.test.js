@@ -1,7 +1,13 @@
 const configs = {
+  'imageMapping': {
+    'image/png': '.png',
+    'image/jpg': '.jpg',
+    'image/jpeg': '.jpg'
+  },
   'server': {
     port: 3001,
-    maxBytes: 20971520 //   20MB
+    maxBytes: 20971520, //   20MB
+    imagesStorage: 'C:\\Users\\Marco\\Desktop\\logs'
   },
   'logging': {
     'opsInterval': 1000,
@@ -16,7 +22,7 @@ const configs = {
     ]
   },
   'database': {
-
+    'connectionString': 'mongodb://localhost/ima-up-test'
   }
 }
 

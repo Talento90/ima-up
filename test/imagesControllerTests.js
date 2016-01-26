@@ -12,7 +12,7 @@ lab.experiment('Images Api Tests', () => {
     }
 
     server.inject(options, (response) => {
-      Code.expect(response.statusCode).to.equal(404)
+      Code.expect(response.statusCode).to.equal(400)
       server.stop(done) // done() callback is required to end the test.
     })
   })
