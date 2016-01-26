@@ -104,7 +104,7 @@ export default (server) => {
       handler: (req, reply) => {
         const id = req.params.id
 
-        Image.findById(id)
+        return Image.findById(id)
           .then((image) => {
             if (!image) {
               reply(Boom.notFound())
@@ -133,7 +133,7 @@ export default (server) => {
       },
       validate: {
         params: {
-          id: Joi.string()
+          id: Joi.objectId()
         }
       }
     }
@@ -146,7 +146,7 @@ export default (server) => {
       handler: (req, reply) => {
         const id = req.params.id
 
-        Image.findById(id)
+        return Image.findById(id)
           .then((image) => {
             if (!image) {
               reply(Boom.notFound())
@@ -155,14 +155,14 @@ export default (server) => {
             }
           })
           .catch((error) => {
-            reply(Boom.internal('Internal MongoDB error', error))
+            reply(Boom.internal('Unexpected Error', error))
           })
       },
       tags: ['api', 'images'],
       description: 'Get image file by id.',
       validate: {
         params: {
-          id: Joi.string()
+          id: Joi.objectId()
         }
       }
     }
@@ -175,24 +175,35 @@ export default (server) => {
       handler: (req, reply) => {
         const id = req.params.id
 
-        Image.findById(id)
+        return Image.findById(id)
           .then((image) => {
             if (!image) {
               reply(Boom.notFound())
             } else {
-              // remove
-              reply(image)
+              return image.remove()
+                .then(() => {
+                  return ImageManager.deleteImage(image._doc)
+                    .then(() => {
+                      reply(image)
+                    })
+                    .catch((error) => {
+                      reply(Boom.internal('Unexpected Error', error))
+                    })
+                })
+                .catch((error) => {
+                  reply(Boom.internal('Unexpected Error', error))
+                })
             }
           })
           .catch((error) => {
-            reply(Boom.internal('Internal MongoDB error', error))
+            reply(Boom.internal('Unexpected Error', error))
           })
       },
       tags: ['api', 'images'],
       description: 'Delete image by id.',
       validate: {
         params: {
-          id: Joi.string()
+          id: Joi.objectId()
         }
       }
     }

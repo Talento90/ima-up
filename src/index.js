@@ -9,6 +9,8 @@ import Mongoose from 'mongoose'
 import Good from 'good'
 import Glob from 'glob'
 import Controllers from './controllers'
+import Joi from 'joi'
+import JoiObjectId from 'joi-objectid'
 
 const server = new Hapi.Server()
 const config = Configs.get()
@@ -22,7 +24,6 @@ server.connection({
 })
 
 //  Setup Hapi Plugins
-
 server.register(
   [
     Inert,
@@ -81,6 +82,9 @@ console.log(models)
 models.forEach(function (model) {
   require(model)
 })
+
+//  Setup Joi Validators
+Joi.objectId = JoiObjectId(Joi)
 
 //  Setup Controllers
 Controllers(server)
