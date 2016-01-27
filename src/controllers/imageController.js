@@ -9,7 +9,7 @@ import * as ImageManager from '../managers/imageManager'
 const config = Configs.get()
 
 const imageModel = Joi.object({
-  id: Joi.string().required().example('23915581-9d85-4af2-9245-fc5bb3b1757f'),
+  id: Joi.string().required().example('56a9490416de9bb820b499f4'),
   type: Joi.string().required().example('image/png'),
   created: Joi.string().required().isoDate().description('ISO date string').example('2016-01-23T22:07:05+00:00')
 }).label('Image Model').description('Json body for image.')
@@ -65,7 +65,7 @@ export default (server) => {
                         reply(newImage).code(201)
                       })
                       .catch((error) => {
-                        reply(Boom.internal('Internal MongoDB error', error))
+                        reply(Boom.internal('Error saving image.', error))
                       })
                   })
               }
@@ -113,7 +113,7 @@ export default (server) => {
             }
           })
           .catch((error) => {
-            reply(Boom.internal('Internal MongoDB error', error))
+            reply(Boom.internal('Error finding image.', error))
           })
       },
       tags: ['api', 'images'],
@@ -155,7 +155,7 @@ export default (server) => {
             }
           })
           .catch((error) => {
-            reply(Boom.internal('Unexpected Error', error))
+            reply(Boom.internal('Error finding image.', error))
           })
       },
       tags: ['api', 'images'],
@@ -187,11 +187,11 @@ export default (server) => {
                       reply(image)
                     })
                     .catch((error) => {
-                      reply(Boom.internal('Unexpected Error', error))
+                      reply(Boom.internal('Error deleting image file.', error))
                     })
                 })
                 .catch((error) => {
-                  reply(Boom.internal('Unexpected Error', error))
+                  reply(Boom.internal('Error deleting image.', error))
                 })
             }
           })

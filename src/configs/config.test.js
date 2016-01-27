@@ -7,7 +7,7 @@ const configs = {
   'server': {
     port: 3001,
     maxBytes: 20971520, //   20MB
-    imagesStorage: 'C:\\Users\\Marco\\Desktop\\logs'
+    imagesStorage: 'C:\\Uploads'
   },
   'logging': {
     'opsInterval': 1000,

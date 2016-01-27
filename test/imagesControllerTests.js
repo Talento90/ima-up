@@ -10,10 +10,21 @@ lab.experiment('Images Api Tests', () => {
       method: 'GET',
       url: '/api/images/invalidId'
     }
-
     server.inject(options, (response) => {
       Code.expect(response.statusCode).to.equal(400)
-      server.stop(done) // done() callback is required to end the test.
+      server.stop(done)
+    })
+  })
+
+  lab.test('GET /images (valid id but image does not exists)', (done) => {
+    var options = {
+      method: 'GET',
+      url: '/api/images/66a9490416de9bb820b499f4'
+    }
+
+    server.inject(options, (response) => {
+      Code.expect(response.statusCode).to.equal(404)
+      server.stop(done)
     })
   })
 })
