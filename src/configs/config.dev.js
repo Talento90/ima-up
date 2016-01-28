@@ -7,7 +7,7 @@ const configs = {
   'server': {
     port: 3001,
     maxBytes: 20971520, //   20MB
-    imagesStorage: 'C:\\Uploads'
+    imagesStorage: 'C:\\Uploads\\'
   },
   'logging': {
     'opsInterval': 1000,
@@ -23,7 +23,7 @@ const configs = {
         reporter: require('good-file'),
         events: { log: '*', response: '*', ops: '*' },
         config: {
-          path: 'C:\\logs',
+          path: 'C:\\Logs',
           format: 'YYYY-MM-DD',
           extension: '.log',
           prefix: 'ImaUp',

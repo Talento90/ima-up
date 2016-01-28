@@ -77,7 +77,6 @@ mongoDb.once('open', () => {
 
 // Load all Mongoose models
 const models = Glob.sync(__dirname + '/models/*.js')
-console.log(models)
 
 models.forEach(function (model) {
   require(model)
