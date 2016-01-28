@@ -10,7 +10,15 @@ ImaUp is a microservice responsible to upload images.
 - Uses Hapi.js as Web Framework
 - Swagger Documentation
 - Tests using Lab
-- MongoDb to store image info
+- MongoDb to store image info (using Mongoose)
+
+**Configuration**
+
+Set configurations in folder (configs/config.{env}.js)
+
+- Image folder for images
+- Database connection string
+- Logs folder
 
 **Installation Guide**
 
